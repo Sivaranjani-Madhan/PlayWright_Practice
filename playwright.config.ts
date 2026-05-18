@@ -20,9 +20,9 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : 3,
+  workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html'], ['line'],['allure-playwright'],['monocart-reporter']],
   timeout : 60000,
   expect:{
     timeout : 10000
@@ -37,14 +37,16 @@ export default defineConfig({
     screenshot:'on',
     video:'on',
     headless:false,
+    viewport: null,
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      
+      use: { 
+        ...devices['Desktop Chrome'],
+      },
     },
 
     // {
